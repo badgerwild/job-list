@@ -17,18 +17,30 @@ class DAO:
         cur = con.cursor()
         cur.execute('SELECT * FROM Job WHERE company=:comp', {'comp': company})
         # DEBUG
-        # print(cur.fetchall())
         data = cur.fetchall()
-        temp = ['id', 'company', 'title', 'level', 'url', 'date']
-        values = {}
-        #        print(data[0][5])
-        #       print(type(data[0]))
-        i = 0
-        for x in temp:
-            values.update({x: data[0][i]})
-            #            print(data[0][i])
-            i += 1
-            # print(i)
+        values = self.make_dict(data)
         con.close()
         return values
-        # return 'Done'
+
+    def make_dict(self, data):
+        keys = ['id', 'company', 'title', 'level', 'url', 'date']
+        values = []
+        for j in data:
+            values.append(dict(zip(keys, j)))
+        return values
+
+    def apply(self, job_id, status, date):
+        con = sqlite3.connect('Application')
+        cur = con.cursor()
+        application = (job_id, status, date)
+        cur.execute(
+            "INSERT INTO Application(job_id, status, submit_date) VALUES (?,?,?)",
+            application)
+        con.commit()
+        con.close()
+
+    def status(self):
+        con = sqlite3.connect('Jobs.db')
+        cur = con.cursor()
+        cur.execute('SELECT * FROM status')
+        return cur.fetchall()
