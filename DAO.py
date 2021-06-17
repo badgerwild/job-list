@@ -102,8 +102,9 @@ class DAO:
         cur = con.cursor()
         cur.execute('SELECT * FROM status')
         data = cur.fetchall()
+        values = self.make_dict(data)
         con.close()
-        return data
+        return values
 
     def find_status(self, status):
         con, cur = self.connect()
@@ -121,8 +122,9 @@ class DAO:
             "SELECT * FROM Job WHERE job_id NOT IN (SELECT job_id FROM Application)"
         )
         data = cur.fetchall()
+        values = self.make_dict(data)
         con.close()
-        return data
+        return values
 
     def all_applied(self):
         con, cur = self.connect()
@@ -130,3 +132,9 @@ class DAO:
         data = cur.fetchall()
         con.close()
         return data
+
+    def return_dict(self, con, cur):
+        data = cur.fetchall()
+        values = self.make_dict(data)
+        con.close()
+        return values

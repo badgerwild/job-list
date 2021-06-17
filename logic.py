@@ -17,7 +17,7 @@ class job_model:
 
     def by_company(self):
         company_name = input('enter company name: ')
-        print(self.db.find_company(company_name))
+        return self.db.find_company(company_name)
 
     def apply(self):
         company_name = input('enter company name: ')
@@ -62,8 +62,11 @@ class job_model:
         self.db.code_challenge(job_id, 1)
 
     def by_status(self):
-        status = input('enter status')
-        print(self.db.find_status(status))
+        status = input('enter status ')
+        if status not in self.vaidate:
+            print("enter a valid selection from the following", self.vaidate)
+            return
+        return self.db.find_status(status)
 
     def no_applied(self):
-        print(self.db.not_applied())
+        return self.db.not_applied()

@@ -1,7 +1,10 @@
+import sys
 from logic import job_model
-#TODO chage to a cleaner dict struture to replicate a case switch statement instead of if elif
+# TODO chage to a cleaner dict struture to replicate a case switch statement instead of if elif
+job = job_model()
+
 if __name__ == '__main__':
-    job = job_model()
+
     exit = False
 
     while not exit:
@@ -17,9 +20,10 @@ if __name__ == '__main__':
         print('Update if code challenge: 9')
         print('Find job application by status: 10')
         print('Find jobs not applied to yet: 11')
+        print('exit: 0')
 
         choice = input('enter choice: ')
-        # TODO refactor to abstract logic from main view
+        # print('\n', choice)
         if int(choice) == 1:
             job.add_job()
 
@@ -51,7 +55,14 @@ if __name__ == '__main__':
             job.by_status()
 
         elif int(choice) == 11:
-            job.no_applied()
+            data = job.no_applied()
+            for i in data:
+                print('--------------------------------')
+                for k, v in i.items():
+                    print(k, ':', v)
+
+        elif int(choice) == 0:
+            sys.exit()
 
         finished = input('are you finished? (y,n): ')
 
