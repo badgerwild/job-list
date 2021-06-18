@@ -1,6 +1,8 @@
 import sys
+from termcolor import colored
 from logic import job_model
-# TODO chage to a cleaner dict struture to replicate a case switch statement instead of if elif
+import util as util
+
 job = job_model()
 
 if __name__ == '__main__':
@@ -8,7 +10,7 @@ if __name__ == '__main__':
     exit = False
 
     while not exit:
-        print('Welcome to job search app')
+        print('------------------Welcome to job search app------------------')
         print('Add single job: 1')
         print('Find jobs by companay: 2')
         print('Apply to Job: 3')
@@ -20,15 +22,22 @@ if __name__ == '__main__':
         print('Update if code challenge: 9')
         print('Find job application by status: 10')
         print('Find jobs not applied to yet: 11')
+        print('Add application status: 12 ')
         print('exit: 0')
 
         choice = input('enter choice: ')
-        # print('\n', choice)
+        try:
+            int(choice)
+
+        except ValueError:
+            print(colored('Please enter an integer', 'yellow'))
+            continue
+
         if int(choice) == 1:
             job.add_job()
 
         elif int(choice) == 2:
-            job.by_company()
+            util.format(job.by_company())
 
         elif int(choice) == 3:
             job.apply()
@@ -52,14 +61,15 @@ if __name__ == '__main__':
             job.code_challenge()
 
         elif int(choice) == 10:
-            job.by_status()
+            data = job.by_status()
+            util.format(data)
 
         elif int(choice) == 11:
             data = job.no_applied()
-            for i in data:
-                print('--------------------------------')
-                for k, v in i.items():
-                    print(k, ':', v)
+            util.format(data)
+
+        elif int(choice) == 12:
+            job.add_app_status()
 
         elif int(choice) == 0:
             sys.exit()

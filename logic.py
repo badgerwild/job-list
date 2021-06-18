@@ -1,11 +1,13 @@
 import datetime
+
+import util
 from DAO import DAO
 
 
 # TODO Implement error handling and remove magic numbers
 class job_model:
     db = DAO()
-    vaidate = db.status()[0]
+    validate = db.status()[0]
 
     def add_job(self):
         company_name = input('enter company name: ')
@@ -21,7 +23,7 @@ class job_model:
 
     def apply(self):
         company_name = input('enter company name: ')
-        print(self.db.find_company(company_name))
+        util.format(self.db.find_company(company_name))
         apply_to = input('enter job id from list: ')
         status = ''
         while status not in self.validate:
@@ -63,10 +65,14 @@ class job_model:
 
     def by_status(self):
         status = input('enter status ')
-        if status not in self.vaidate:
-            print("enter a valid selection from the following", self.vaidate)
+        if status not in self.validate:
+            print("enter a valid selection from the following", self.validate)
             return
         return self.db.find_status(status)
 
     def no_applied(self):
         return self.db.not_applied()
+
+    def add_app_status(self):
+        status = input('Enter a new job application status')
+        self.db.add_status(str(status))

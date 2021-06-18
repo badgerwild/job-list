@@ -96,15 +96,21 @@ class DAO:
         cur.execute("UPDATE Application SET leet_code=? WHERE job_id=?", data)
         con.commit()
         con.close()
-
+        #TODO figure out why this in not returning the proper format of job statuses
     def status(self):
         con = sqlite3.connect('Jobs.db')
         cur = con.cursor()
         cur.execute('SELECT * FROM status')
         data = cur.fetchall()
-        values = self.make_dict(data)
         con.close()
-        return values
+        return data
+
+    def add_status(self, status):
+        con, cur = self.connect()
+        data = (status, )
+        cur.execute("INSERT INTO status(status) VALUES (?)", data)
+        con.commit()
+        con.close()
 
     def find_status(self, status):
         con, cur = self.connect()
