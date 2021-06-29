@@ -41,12 +41,12 @@ class DAO:
             values.append(dict(zip(keys, j)))
         return values
 
-    def apply(self, job_id, status, date):
+    def apply(self, job_id, status, date, cover_letter, platform):
         con = sqlite3.connect('Jobs.db')
         cur = con.cursor()
-        application = (job_id, status, date)
+        application = (job_id, status, date, cover_letter, platform)
         cur.execute(
-            "INSERT INTO Application(job_id, status, submit_date) VALUES (?,?,?)",
+            "INSERT INTO Apply(job_id, status, submit_date, cover_letter, platform) VALUES (?,?,?,?,?)",
             application)
         con.commit()
         con.close()

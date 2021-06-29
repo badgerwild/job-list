@@ -4,7 +4,7 @@ import util
 from DAO import DAO
 
 
-# TODO Implement error handling and remove magic numbers
+# TODO implement changews to apply table in the select functions
 class job_model:
     db = DAO()
     validate = db.status()[0]
@@ -14,7 +14,7 @@ class job_model:
         job_title = input('enter job title: ')
         job_level = input('enter job level: ')
         url = input('enter url: ')
-        date = input('enter date poasted (yyyy-mm-dd: ')
+        date = input('enter date poasted (yyyy-mm-dd): ')
         self.db.add_single_job(company_name, job_title, job_level, url, date)
 
     def by_company(self):
@@ -30,7 +30,15 @@ class job_model:
             print(self.validate)
             status = input('enter a valid status: ')
         date = str(datetime.date.today())
-        self.db.apply(apply_to, status, date)
+        cover_letter = input('Did you apply with a cover letter?(y, n) ')
+        b_cover_letter = 0
+        if str(cover_letter) == 'y':
+            b_cover_letter = 1
+
+        platform = input(
+            'Enter the name of the application plaform (use \'company site\' for application on company website'
+        )
+        self.db.apply(apply_to, status, date, b_cover_letter, platform)
 
     def fix_app_date(self):
         date = input('enter date applied (yyyy-mm-dd): ')
