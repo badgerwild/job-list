@@ -54,32 +54,29 @@ class DAO:
     def update_date(self, job_id, date):
         con, cur = self.connect()
         data = (date, job_id)
-        cur.execute("UPDATE Application SET response_date=? WHERE job_id=?",
-                    data)
+        cur.execute("UPDATE Apply SET submit_date=? WHERE job_id=?", data)
         con.commit()
         con.close()
 
     def update_status(self, job_id, status):
         con, cur = self.connect()
         data = (job_id, status)
-        cur.execute("UPDATE Application SET status=? WHERE job_id=?", data)
+        cur.execute("UPDATE Apply SET status=? WHERE job_id=?", data)
         con.commit()
         con.close()
 
     def update_response_date(self, job_id, date):
         con, cur = self.connect()
         data = (job_id, date)
-        cur.execute("UPDATE Application SET response_date=? WHERE job_id=?",
-                    data)
+        cur.execute("UPDATE Apply SET response_date=? WHERE job_id=?", data)
         con.commit()
         con.close()
 
     def update_number_of_interviews(self, job_id, number):
         con, cur = self.connect()
         data = (job_id, number)
-        cur.execute(
-            "UPDATE Application SET number_of_interviews=? WHERE job_id=?",
-            data)
+        cur.execute("UPDATE Apply SET number_of_interviews=? WHERE job_id=?",
+                    data)
         con.commit()
         con.close()
 
@@ -90,13 +87,18 @@ class DAO:
         con.commit()
         con.close()
 
+# TODO rename this
+
     def code_challenge(self, job_id, value):
         con, cur = self.connect()
         data = (job_id, value)
-        cur.execute("UPDATE Application SET leet_code=? WHERE job_id=?", data)
+        cur.execute("UPDATE Apply SET leet_code=? WHERE job_id=?", data)
         con.commit()
         con.close()
-        #TODO figure out why this in not returning the proper format of job statuses
+
+
+# TODO figure out why this in not returning the proper format of job statuses
+
     def status(self):
         con = sqlite3.connect('Jobs.db')
         cur = con.cursor()
@@ -115,7 +117,7 @@ class DAO:
     def find_status(self, status):
         con, cur = self.connect()
         cur.execute(
-            "SELECT * FROM Job WHERE job_id IN (SELECT job_id FROM Application WHERE status=?)",
+            "SELECT * FROM Job WHERE job_id IN (SELECT job_id FROM Apply WHERE status=?)",
             (status, ))
         data = cur.fetchall()
         values = self.make_dict(data)
@@ -125,8 +127,7 @@ class DAO:
     def not_applied(self):
         con, cur = self.connect()
         cur.execute(
-            "SELECT * FROM Job WHERE job_id NOT IN (SELECT job_id FROM Application)"
-        )
+            "SELECT * FROM Job WHERE job_id NOT IN (SELECT job_id FROM Apply)")
         data = cur.fetchall()
         values = self.make_dict(data)
         con.close()
@@ -134,7 +135,7 @@ class DAO:
 
     def all_applied(self):
         con, cur = self.connect()
-        cur.exectue("SELECT * FROM Application")
+        cur.exectue("SELECT * FROM Apply")
         data = cur.fetchall()
         con.close()
         return data

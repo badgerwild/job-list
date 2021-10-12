@@ -4,7 +4,7 @@ import util
 from DAO import DAO
 
 
-# TODO implement changews to apply table in the select functions
+# TODO implement changes to apply table in the select functions
 class job_model:
     db = DAO()
     validate = db.status()[0]
@@ -73,9 +73,9 @@ class job_model:
 
     def by_status(self):
         status = input('enter status ')
-        if status not in self.validate:
+        while status not in self.validate:
             print("enter a valid selection from the following", self.validate)
-            return
+            status = input('enter status ')
         return self.db.find_status(status)
 
     def no_applied(self):
