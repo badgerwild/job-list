@@ -72,11 +72,19 @@ class job_model:
         self.db.code_challenge(job_id, 1)
 
     def by_status(self):
-        status = input('enter status ')
-        while status not in self.validate:
-            print("enter a valid selection from the following", self.validate)
-            status = input('enter status ')
-        return self.db.find_status(status)
+        print(
+            f'select a status from the following or 0 to exit: \n {self.validate} '
+        )
+        status = input('Selection: ')
+        if status == str(0):
+            return None
+        else:
+            while status not in self.validate:
+                print(
+                    f'enter a valid selection from the following:\n {self.validate}'
+                )
+                status = input('enter status ')
+            return self.db.find_status(status)
 
     def no_applied(self):
         return self.db.not_applied()

@@ -62,7 +62,13 @@ if __name__ == '__main__':
 
         elif int(choice) == 10:
             data = job.by_status()
-            util.format(data)
+            #TODO make this return to menu in the future
+            if data is None:
+                print('done')
+            elif len(data) <= 0:
+                print('Nothing with that status')
+            else:
+                util.format(data)
 
         elif int(choice) == 11:
             data = job.no_applied()
@@ -73,6 +79,9 @@ if __name__ == '__main__':
 
         elif int(choice) == 0:
             sys.exit()
+
+        elif int(choice) < 0 or int(choice) > 12:
+            print('Not a valid selection')
 
         finished = input('are you finished? (y,n): ')
 
