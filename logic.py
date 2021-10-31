@@ -23,8 +23,13 @@ class job_model:
 
     def apply(self):
         company_name = input('enter company name: ')
-        util.format(self.db.find_company(company_name))
+        entries = self.db.find_company(company_name)
+        util.format(entries)
+        # TODO validate this job id here
         apply_to = input('enter job id from list: ')
+        if self.validate_by_id(entries, apply_to) is False:
+            print('Not in list')
+            return
         status = ''
         while status not in self.validate:
             print(self.validate)
@@ -92,3 +97,9 @@ class job_model:
     def add_app_status(self):
         status = input('Enter a new job application status')
         self.db.add_status(str(status))
+
+    def validate_by_id(self, list_of_jobs, target):  # TODO make sure it works
+        temp = []
+        for j in list_of_jobs:
+            temp.append(j["id"])
+        return target in temp

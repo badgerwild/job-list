@@ -96,7 +96,6 @@ class DAO:
         con.commit()
         con.close()
 
-
 # TODO figure out why this in not returning the proper format of job statuses
 
     def status(self):
